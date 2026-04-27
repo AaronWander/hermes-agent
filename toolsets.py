@@ -156,6 +156,12 @@ TOOLSETS = {
         "tools": ["text_to_speech"],
         "includes": []
     },
+
+    "ragflow": {
+        "description": "RAGFlow knowledge-base retrieval and Q&A (requires a running RAGFlow server)",
+        "tools": ["ragflow_completion"],
+        "includes": []
+    },
     
     "todo": {
         "description": "Task planning and tracking for multi-step work",

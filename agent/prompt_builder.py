@@ -176,6 +176,12 @@ SKILLS_GUIDANCE = (
     "Skills that aren't maintained become liabilities."
 )
 
+VISION_GUIDANCE = (
+    "If the user provides an image (screenshot/photo), you CAN analyze it by calling "
+    "the vision_analyze tool with the image_url and a specific question. "
+    "Do not claim you 'can't see images' when vision_analyze is available — use the tool."
+)
+
 TOOL_USE_ENFORCEMENT_GUIDANCE = (
     "# Tool-use enforcement\n"
     "You MUST use your tools to take action — do not describe what you would do "

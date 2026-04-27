@@ -95,6 +95,28 @@ def agent_with_memory_tool():
         return a
 
 
+@pytest.fixture()
+def agent_with_vision_tool():
+    """Agent whose valid_tool_names includes 'vision_analyze'."""
+    with (
+        patch(
+            "run_agent.get_tool_definitions",
+            return_value=_make_tool_defs("web_search", "vision_analyze"),
+        ),
+        patch("run_agent.check_toolset_requirements", return_value={}),
+        patch("run_agent.OpenAI"),
+    ):
+        a = AIAgent(
+            api_key="test-k...7890",
+            base_url="https://openrouter.ai/api/v1",
+            quiet_mode=True,
+            skip_context_files=True,
+            skip_memory=True,
+        )
+        a.client = MagicMock()
+        return a
+
+
 def test_aiagent_reuses_existing_errors_log_handler():
     """Repeated AIAgent init should not accumulate duplicate errors.log handlers."""
     root_logger = logging.getLogger()
@@ -877,6 +899,12 @@ class TestBuildSystemPrompt:
 
         prompt = agent._build_system_prompt()
         assert MEMORY_GUIDANCE not in prompt
+
+    def test_vision_guidance_when_vision_tool_loaded(self, agent_with_vision_tool):
+        from agent.prompt_builder import VISION_GUIDANCE
+
+        prompt = agent_with_vision_tool._build_system_prompt()
+        assert VISION_GUIDANCE in prompt
 
     def test_includes_datetime(self, agent):
         prompt = agent._build_system_prompt()
